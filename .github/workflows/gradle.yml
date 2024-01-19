@@ -69,6 +69,6 @@ jobs:
           script: |
             sudo docker kill aaaaaa
             sudo docker rm -f aaaaaa
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/aaaaaa
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/aaaaaa:latest
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/aaaaaa
-            sudo docker run -p 8080:8080 --name aaaaaa -d ${{ secrets.DOCKERHUB_USERNAME}}/aaaaaa
+            sudo docker run -p 8080:8080 --name aaaaaa -d ${{ secrets.DOCKERHUB_USERNAME}}/aaaaaa:latest
