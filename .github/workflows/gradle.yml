@@ -59,3 +59,18 @@ jobs:
       # DockerHub's Image push
       - name: DockerHub Push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/cicd_test
+
+      # run application, ec2 client name : appleboy
+      - name: Run Application
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          script: |
+            sudo docker kill cicd_test
+            sudo docker rm -f cicd_test
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/cicd_test
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/cicd_test
+            sudo docker run -p 8082:8082 --name cicd_test -d ${{ secrets.DOCKERHUB_USERNAME}}/cicd_test
