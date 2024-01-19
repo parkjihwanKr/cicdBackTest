@@ -25,7 +25,7 @@ jobs:
         run: chmod +x gradlew
 
       # gradle caching
-      - name: cache
+      - name: Gradle Caching
         uses: actions/cache@v2
         with:
           path: |
@@ -46,3 +46,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME}}
           password: ${{ secrets.DOCKERHUB_PASSWORD}}
+
+      # DockerHub에 푸시
+      - name: Build and push to DockerHub
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_TAG }}
