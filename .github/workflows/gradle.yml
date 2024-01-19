@@ -52,11 +52,11 @@ jobs:
       # *.jar -> Docker Image Build
       # 디렉토리 이름은 마음대로 /air_dns_test
       - name: Docker Image Build
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/aaaaaa .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ppp .
 
       # DockerHub's Image push
       - name: DockerHub Push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/aaaaaa
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/ppp
 
       # run application, ec2 client name : appleboy
       - name: Run Application
@@ -67,8 +67,8 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
-            sudo docker kill aaaaaa
-            sudo docker rm -f aaaaaa
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/aaaaaa
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/aaaaaa
-            sudo docker run -p 8080:8080 --name aaaaaa -d ${{ secrets.DOCKERHUB_USERNAME}}/aaaaaa
+            sudo docker kill ppp
+            sudo docker rm -f ppp
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/ppp:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ppp
+            sudo docker run -p 8080:8080 --name ppp -d ${{ secrets.DOCKERHUB_USERNAME}}/ppp:latest
