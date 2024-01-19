@@ -9,5 +9,4 @@ public class HomeController {
     public String goHome(){
         return "CI/CD";
     }
-
 }
