@@ -68,8 +68,8 @@ jobs:
           script: |
             sudo docker kill ppp
             sudo docker rm -f ppp
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/ppp:latest
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/ppp
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ppp
-            sudo docker run -p 8080:8080 \
-                          --name ppp \
-                          -d ${{ secrets.DOCKERHUB_USERNAME}}/ppp:latest
+            sudo docker run -p 8082:8082 \
+                        --name ppp \
+                        -d ${{ secrets.DOCKERHUB_USERNAME}}/ppp
