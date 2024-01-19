@@ -24,14 +24,21 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # gradle caching
+      - name: Gradle Caching
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       # Build Gradle
       - name: Build with Gradle
         # test code는 빌드하지 않음
         run: ./gradlew assemble
-
-      # docker container builder driver를 사용하여 builder를 만들고 부팅
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
 
       # DockerHub 계정 로그인
       - name: DockerHub Login
