@@ -38,6 +38,10 @@ jobs:
         # test code는 빌드하지 않음
         run: ./gradlew assemble
 
+      # docker container builder driver를 사용하여 builder를 만들고 부팅
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       # 도커 허브에 로그인
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -48,22 +52,23 @@ jobs:
       # *.jar -> Docker Image Build
       # 디렉토리 이름은 마음대로 /air_dns_test
       - name: Docker Image Build
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ppp .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/cicd_test .
 
       # DockerHub's Image push
       - name: DockerHub Push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/ppp
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/cicd_test
 
       # run application, ec2 client name : appleboy
       - name: Run Application
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
+          port: 22
           script: |
-            sudo docker kill air_dns
-            sudo docker rm -f air_dns
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/air_dns
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/air_dns
-            sudo docker run -p 8082:8082 --name air_dns -d ${{ secrets.DOCKERHUB_USERNAME}}/air_dns
+            sudo docker kill cicd_test
+            sudo docker rm -f cicd_test
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/cicd_test
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/cicd_test
+            sudo docker run -p 8082:8082 --name cicd_test -d ${{ secrets.DOCKERHUB_USERNAME}}/cicd_test
