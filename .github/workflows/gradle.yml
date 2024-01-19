@@ -42,7 +42,7 @@ jobs:
 
       # docker container builder driver를 사용하여 builder를 만들고 부팅
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # 도커 허브에 로그인
       - name: Login to DockerHub
