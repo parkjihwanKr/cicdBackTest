@@ -60,16 +60,14 @@ jobs:
 
       # run application, ec2 client name : appleboy
       - name: Run Application
-        uses: appleboy/ssh-action@v0.1.9
+        uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo docker kill ppp
-            sudo docker rm -f ppp
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/ppp
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ppp
-            sudo docker run -p 8082:8082 \
-                        --name ppp \
-                        -d ${{ secrets.DOCKERHUB_USERNAME}}/ppp
+            sudo docker kill air_dns
+            sudo docker rm -f air_dns
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/air_dns
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/air_dns
+            sudo docker run -p 8082:8082 --name air_dns -d ${{ secrets.DOCKERHUB_USERNAME}}/air_dns
